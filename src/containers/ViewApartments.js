@@ -3,23 +3,38 @@ import {Text, View, StyleSheet, FlatList, TouchableHighlight, Image} from "react
 import {connect} from "react-redux";
 import {Actions} from "react-native-router-flux";
 import { Card, ListItem, Button } from 'react-native-elements';
+import {apartmentsFetch} from "../actions";
+import * as _ from 'lodash';
 
 class ViewApartments extends Component {
 
     _keyExtractor = (item, index) => item.id;
 
     _onSelectItem = (item) => {
-        console.log(item);
-        console.log("Clicked");
+        // console.log(item);
+        // console.log("Clicked");
         Actions.apartmentDetail({apartment: item});
     };
 
+    componentWillMount() {
+        this.props.apartmentsFetch();
+        // this.createDataSource(this.props);
+    }
+    //
+    // componentWillReceiveProps(nextProps) {
+    //     this.createDataSource(nextProps);
+    // }
+    //
+    // createDataSource({ apartments }) {
+    //     const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+    //     this.dataSource = ds.cloneWithRows(this.props.apartments);
+    // }
+
     _renderApartmentItem = ({item}) => {
-        console.log(item.img);
         return (
             <Card
-                title={item.id}
-                image={item.img}>
+                title={item.title}
+                image={{uri: item.imageUrl}}>
                 <Text style={{marginBottom: 10}}>
                     {item.title}
                 </Text>
@@ -34,8 +49,6 @@ class ViewApartments extends Component {
     };
 
     render() {
-        console.log("ViewApartments");
-        console.log("Props: ", this.props);
         return (
             <View style={styles.mainView}>
                 <Text> View Apartments scene </Text>
@@ -50,10 +63,20 @@ class ViewApartments extends Component {
     }
 }
 
+// const mapStateToProps = (state) => {
+//     return {
+//         apartments: state.apartments
+//     }
+// };
+
 const mapStateToProps = (state) => {
-    return {
-        apartments: state.apartments
-    }
+    const apartments = _.map(state.apartmentData, (val, uid) => {
+        return {
+            ...val,
+            uid
+        }
+    });
+    return { apartments };
 };
 
 const styles = StyleSheet.create({
@@ -64,5 +87,5 @@ const styles = StyleSheet.create({
 
 export default connect(
     mapStateToProps,
-    {}
+    {apartmentsFetch}
 )(ViewApartments);

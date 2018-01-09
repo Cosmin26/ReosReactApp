@@ -20,14 +20,23 @@
   },
   "dependencies": {
     "expo": "^22.0.2",
+    "firebase": "^4.6.2",
+    "lodash": "^4.17.4",
+    "moment": "^2.19.3",
     "react": "16.0.0-beta.5",
     "react-native": "^0.49.5",
+    "react-native-action-button": "^2.8.3",
+    "react-native-communications": "^2.2.1",
     "react-native-elements": "latest",
+    "react-native-modal-datetime-picker": "^4.13.0",
+    "react-native-pathjs-charts": "0.0.33",
     "react-native-router-flux": "^4.0.0-beta.22",
     "react-native-sidebar": "^0.3.0",
+    "react-native-vector-icons": "^4.4.2",
     "react-redux": "^5.0.6",
     "redux": "^3.7.2",
     "redux-logger": "^3.0.6",
-    "redux-thunk": "^2.2.0"
+    "redux-thunk": "^2.2.0",
+    "react-native-svg": "latest"
   }
 }

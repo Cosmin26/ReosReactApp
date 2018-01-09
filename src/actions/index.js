@@ -1,13 +1,16 @@
-export const EDIT_APARTMENT = 'EDIT_APARTMENT';
+// export const EDIT_APARTMENT = 'EDIT_APARTMENT';
+//
+// export function editApartment(id, title) {
+//     return {
+//         type: EDIT_APARTMENT,
+//         id,
+//         title,
+//     }
+// }
+//
+// export const ActionCreators = Object.assign({},
+//     editApartment
+// );
 
-export function editApartment(id, title) {
-    return {
-        type: EDIT_APARTMENT,
-        id,
-        title,
-    }
-}
-
-export const ActionCreators = Object.assign({},
-    editApartment
-);
+export * from './apartments';
+export * from './users';

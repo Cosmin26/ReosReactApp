@@ -20,6 +20,22 @@ export default class Main extends Component {
                         }}
                         buttonStyle={{borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 10}}
                         title='View Apartments'/>
+                        <Button
+                            icon={{name: 'add'}}
+                            backgroundColor='#03A9F4'
+                            onPress={() => {
+                                Actions.createApartment()
+                            }}
+                            buttonStyle={{borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 10}}
+                            title='Create Apartments'/>
+                        <Button
+                            icon={{name: 'percent'}}
+                            backgroundColor='#03A9F4'
+                            onPress={() => {
+                                Actions.statistics()
+                            }}
+                            buttonStyle={{borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 10}}
+                            title='Statistics'/>
                     <Button
                         icon={{name: 'email'}}
                         backgroundColor='#03A9F4'
