@@ -80,13 +80,16 @@ import { apartmentUpdate, apartmentCreate, apartmentSave, apartmentDelete } from
 import ApartmentForm from "./ApartmentForm";
 import {Confirm} from "./common/Confirm";
 import {Actions} from "react-native-router-flux";
-
+import { Notifications } from 'expo';
+import registerForPushNotificationsAsync from "../api/registerForPushNotificationsAsync";
+import Expo from 'expo';
 class ApartmentDetail extends Component {
     state = {
         visible: false,
     };
 
     componentWillMount() {
+
         _.each(this.props.apartment, (value, prop) => {
             this.props.apartmentUpdate({ prop, value});
         });
@@ -98,9 +101,11 @@ class ApartmentDetail extends Component {
         this.props.apartmentSave({ title, imageUrl, cost, uid: this.props.apartment.uid });
     }
 
+
+
     onTextPress() {
-        const { phone, shift } = this.props;
-        Communications.text(phone, `You schedlue begins on ${shift}`);
+        // const { phone, shift } = this.props;
+        Communications.text('0757650489', `You schedlue begins on`);
     }
 
     onDeletePress() {

@@ -8,13 +8,14 @@ import {
     EMAIL_CHANGED,
     PASSWORD_CHANGED
 } from './types';
+import * as types from "./types";
 
-const loginUserSuccess = (dispatch, user) => {
+const loginUserSuccess = (dispatch, user, isAdmin) => {
     dispatch({
         type: LOGIN_USER_SUCCESS,
-        payload: user,
+        payload: user
     });
-    Actions.main();
+    Actions.main({isAdmin: isAdmin});
 };
 
 const loginUserFail = (dispatch) => {
@@ -41,10 +42,20 @@ export const loginUser = ({ email, password }) => {
     return (dispatch) => {
         dispatch({ type: LOGIN_USER });
         firebase.auth().signInWithEmailAndPassword(email, password)
-            .then(user => loginUserSuccess(dispatch, user))
+            .then(user =>{
+                firebase.database().ref(`/admins/email`)
+                    .on('value', snapshot => {
+                        if(snapshot.val() === email){
+                            loginUserSuccess(dispatch, user, true);
+                        } else {
+                            loginUserSuccess(dispatch, user, false)
+                        }
+                    });
+
+            })
             .catch(() => {
                 firebase.auth().createUserWithEmailAndPassword(email, password)
-                    .then(user => loginUserSuccess(dispatch, user))
+                    .then(user => loginUserSuccess(dispatch, user, false))
                     .catch(() => {
                         loginUserFail(dispatch);
                         console.log(email);

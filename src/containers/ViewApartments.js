@@ -3,7 +3,7 @@ import {Text, View, StyleSheet, FlatList, TouchableHighlight, Image} from "react
 import {connect} from "react-redux";
 import {Actions} from "react-native-router-flux";
 import { Card, ListItem, Button } from 'react-native-elements';
-import {apartmentsFetch} from "../actions";
+import {apartmentsFetch, apartmentsFetchAllUsers} from "../actions";
 import * as _ from 'lodash';
 
 class ViewApartments extends Component {
@@ -13,12 +13,18 @@ class ViewApartments extends Component {
     _onSelectItem = (item) => {
         // console.log(item);
         // console.log("Clicked");
-        Actions.apartmentDetail({apartment: item});
+        if(!this.props.isAdmin) {
+            Actions.apartmentDetail({apartment: item});
+        }
     };
 
     componentWillMount() {
-        this.props.apartmentsFetch();
-        // this.createDataSource(this.props);
+        if(this.props.isAdmin){
+            console.log("mumu");
+            this.props.apartmentsFetchAllUsers();
+        }else {
+            this.props.apartmentsFetch();
+        }// this.createDataSource(this.props);
     }
     //
     // componentWillReceiveProps(nextProps) {
@@ -87,5 +93,6 @@ const styles = StyleSheet.create({
 
 export default connect(
     mapStateToProps,
-    {apartmentsFetch}
+    {apartmentsFetch,
+        apartmentsFetchAllUsers}
 )(ViewApartments);

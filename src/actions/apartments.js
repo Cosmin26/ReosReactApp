@@ -148,6 +148,32 @@ export const apartmentsFetch = () => {
     };
 };
 
+export const apartmentsFetchAllUsers = () => {
+    return (dispatch) => {
+        firebase.database().ref(`/users/`)
+            .on('value', snapshot => {
+                var apartments = [];
+                var users = snapshot.val();
+                // console.log(users);
+                // console.log(users[0]);
+                for(var user in users){
+                    if (!users[user].hasOwnProperty('apartments')) continue;
+                    var userApartments = users[user]['apartments'];
+                    for(var apartment in userApartments){
+                        // console.log("apartment" +  apartment);
+                        users[user]['apartments'][apartment]['userId'] = user;
+                        // console.log("user: " + user);
+                        apartments.push(users[user]['apartments'][apartment]);
+                    }
+                }
+                dispatch({
+                    type: types.APARTMENT_FETCH_ALL_SUCCESS,
+                    payload: apartments,
+                })
+            });
+    };
+}
+
 export const apartmentSave = ({ title, imageUrl, cost, uid }) => {
     const { currentUser } = firebase.auth();
     return (dispatch) => {
@@ -157,6 +183,15 @@ export const apartmentSave = ({ title, imageUrl, cost, uid }) => {
         firebase.database().ref(`/users/${currentUser.uid}/apartments/${uid}`)
             .set({ title, imageUrl, cost})
             .then(() => {
+                const payload = {
+                    notification: {
+                        title: 'Updated db',
+                        body: text,
+                    }
+                };
+
+                return firebase.messaging()
+                    .sendToTopic('secret-chatroom', payload);
                 Actions.viewApartments();
             });
     }

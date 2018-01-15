@@ -53,6 +53,7 @@
 import {
     APARTMENT_FETCH_SUCCESS
 } from '../actions/types.js';
+import {APARTMENT_FETCH_ALL_SUCCESS} from "../actions/types";
 
 const INITIAL_STATE = {
 
@@ -61,6 +62,8 @@ const INITIAL_STATE = {
 export default (state = INITIAL_STATE, action) => {
     switch(action.type) {
         case APARTMENT_FETCH_SUCCESS:
+            return action.payload;
+        case APARTMENT_FETCH_ALL_SUCCESS:
             return action.payload;
         default:
             return state;
